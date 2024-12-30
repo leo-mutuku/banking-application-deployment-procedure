@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+# Default (local) profile configuration
+spring.profiles.active: local  # Keep this to activate the local profile by default
+
+# Local profile configuration
+---
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/banking_application
+
+  config:
+    activate:
+      on-profile: local  # This is how you activate the 'local' profile now
+
+# Docker profile configuration
+---
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-sql:5432/banking_application
+
+  config:
+    activate:
+      on-profile: docker  # This is how you activate the 'docker' profile now
+
+kafka:
+  bootstrap-servers: kafka:9093  # Kafka broker address from docker-compose
+  consumer:
+    group-id: notification-group  # Define the group ID for consumers
+    auto-offset-reset: earliest  # Optional: start reading from the earliest message
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 3600000  # 1h
+      refresh-token:
+        expiration: 86400000 # 1 day
+
+server:
+  port: 8080
