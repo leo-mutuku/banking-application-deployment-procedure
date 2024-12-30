@@ -102,7 +102,7 @@ volumes:
 
 
 
-
+```
 ## Service Details
 
 ### Spring Application (`spring-app`):
