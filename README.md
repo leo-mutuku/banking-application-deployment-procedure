@@ -89,3 +89,47 @@ volumes:
     driver: local
   kafka-data:
     driver: local
+
+ nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+
+
+
+## Service Details
+
+### Spring Application (`spring-app`):
+- Builds the Docker container using the `Dockerfile`.
+- Exposes port `8090` for the Spring Boot application.
+- Connects to the PostgreSQL and Kafka services.
+- Configures environment variables for:
+  - Database connection
+  - JWT settings
+
+### PostgreSQL Database (`postgres`):
+- Runs a PostgreSQL container and exposes port `5433` (host-to-container mapping).
+- Uses environment variables for user and password configuration.
+- Data is stored in a persistent volume (`postgres`).
+
+### Kafka Broker (`kafka`):
+- Runs a Kafka container and exposes port `9093`.
+- Configures Kafka with environment variables, including:
+  - Topics (`KRAFT_CREATE_TOPICS`)
+  - Partitions (`KRAFT_PARTITIONS_PER_TOPIC`)
+- Kafka data is stored in a persistent volume (`kafka-data`).
+
+## Networks and Volumes
+
+### Network (`app-network`):
+- All services are connected to the `app-network` for internal communication.
+
+### Volumes:
+- **`postgres`**: Used for storing PostgreSQL data.
+- **`kafka-data`**: Used for storing Kafka data.
