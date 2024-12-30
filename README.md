@@ -133,3 +133,11 @@ volumes:
 ### Volumes:
 - **`postgres`**: Used for storing PostgreSQL data.
 - **`kafka-data`**: Used for storing Kafka data.
+
+
+
+
+
+# Release Notes 
+
+https://github.com/leo-mutuku/banking-application/releases/tag/v1.0.0
